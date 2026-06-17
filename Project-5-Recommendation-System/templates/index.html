@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Smart Course Recommendation System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            background: linear-gradient(135deg, #020617, #111827);
+            color: #f9fafb;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: auto;
+            padding: 40px 0;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 35px;
+            background: #111827;
+            border: 1px solid #334155;
+            border-radius: 20px;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.45);
+            margin-bottom: 30px;
+        }
+
+        .hero h1 {
+            margin-bottom: 10px;
+            font-size: 36px;
+            color: #38bdf8;
+        }
+
+        .hero p {
+            font-size: 17px;
+            color: #cbd5e1;
+        }
+
+        form {
+            margin-top: 25px;
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        input {
+            width: 65%;
+            min-width: 280px;
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid #475569;
+            background: #020617;
+            color: #f8fafc;
+            font-size: 16px;
+            outline: none;
+        }
+
+        input::placeholder {
+            color: #94a3b8;
+        }
+
+        button {
+            padding: 15px 25px;
+            border: none;
+            border-radius: 12px;
+            background: #38bdf8;
+            color: #020617;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0ea5e9;
+        }
+
+        .section-title {
+            margin: 25px 0 15px;
+            font-size: 24px;
+            color: #f8fafc;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: #111827;
+            border: 1px solid #334155;
+            border-radius: 18px;
+            padding: 22px;
+            box-shadow: 0 8px 28px rgba(0,0,0,0.35);
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: #38bdf8;
+        }
+
+        .card h3 {
+            margin-top: 0;
+            color: #38bdf8;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 20px;
+            background: #0f172a;
+            color: #7dd3fc;
+            border: 1px solid #334155;
+            font-size: 13px;
+            margin: 4px 4px 8px 0;
+        }
+
+        .description {
+            color: #cbd5e1;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+
+        .card p {
+            color: #e5e7eb;
+        }
+
+        .progress-box {
+            margin-top: 15px;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            margin-bottom: 6px;
+            color: #cbd5e1;
+        }
+
+        .progress {
+            height: 10px;
+            background: #334155;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #38bdf8, #22c55e);
+        }
+
+        .empty {
+            text-align: center;
+            padding: 25px;
+            color: #94a3b8;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        @media (max-width: 600px) {
+            .hero h1 {
+                font-size: 27px;
+            }
+
+            input {
+                width: 100%;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+        <div class="hero">
+            <h1>Smart Course Recommendation System</h1>
+            <p>AI/ML based course recommendations using content-based filtering and similarity scoring.</p>
+
+            <form method="POST">
+                <input 
+                    type="text" 
+                    name="preference" 
+                    placeholder="Example: python machine learning beginner data analysis"
+                    value="{{ user_input }}"
+                    required
+                >
+                <button type="submit">Recommend Courses</button>
+            </form>
+        </div>
+
+        {% if user_input %}
+            <h2 class="section-title">Recommended Courses for: "{{ user_input }}"</h2>
+        {% endif %}
+
+        {% if recommendations %}
+            <div class="cards">
+                {% for course in recommendations %}
+                    <div class="card">
+                        <h3>{{ course.title }}</h3>
+
+                        <span class="tag">{{ course.category }}</span>
+                        <span class="tag">{{ course.level }}</span>
+
+                        <p class="description">{{ course.description }}</p>
+
+                        <p><strong>Skills:</strong> {{ course.skills }}</p>
+
+                        <div class="progress-box">
+                            <div class="progress-label">
+                                <span>Match Score</span>
+                                <span>{{ course.match_percentage }}%</span>
+                            </div>
+                            <div class="progress">
+                                <div 
+                                    class="progress-fill" 
+                                    style="width: {{ course.match_percentage }}%;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% elif user_input %}
+            <div class="empty">
+                No recommendations found. Try different keywords.
+            </div>
+        {% endif %}
+
+        <footer>
+            CodeVedX AI/ML Internship 2026 | Project 5
+        </footer>
+
+    </div>
+</body>
+</html>
