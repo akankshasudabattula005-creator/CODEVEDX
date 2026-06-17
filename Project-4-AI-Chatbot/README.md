@@ -1,4 +1,4 @@
-# Project 4 – AI Chatbot for Internal Helpdesk
+# Project 4 – AI Chatbot for Internal Helpdesk (Flask Web Version)
 
 **CodeVedX AI/ML Internship 2026 | Akanksha Sudabattula**
 
@@ -6,68 +6,54 @@
 
 ## Overview
 
-An NLP-based helpdesk chatbot that detects user intent and responds to internship-related queries. Trained on a custom FAQ dataset with 20 intents and 106 patterns.
+A full-featured AI helpdesk chatbot with a **Flask web interface** — runs in the browser with a beautiful dark-themed chat UI. Powered by TF-IDF vectorization and cosine similarity for intent detection.
 
 ---
 
 ## Features
 
-| # | Feature |
-|---|---------|
-| 1 | Intent-based chat with confidence scores |
-| 2 | 20 intents covering all internship queries |
-| 3 | Admin panel to add new FAQs |
-| 4 | Retrain chatbot without restarting |
-| 5 | Chat history saved to JSON |
-| 6 | Fallback responses for unknown queries |
+| Feature | Description |
+|---------|-------------|
+| 🌐 Web Interface | Beautiful dark-themed chat UI in browser |
+| 🤖 Intent Detection | 20 intents, 106 patterns, cosine similarity |
+| ⚡ Real-time Chat | Typing indicator, animated message bubbles |
+| 📊 Live Stats | Message count, confidence score, intent display |
+| 🔘 Quick Buttons | 10 pre-built question shortcuts in sidebar |
+| 🔧 Admin API | Add FAQs and retrain via REST endpoints |
+| 💾 Chat History | Session-based history tracking |
 
 ---
 
 ## Tech Stack
 
-- **Language** – Python 3.x
-- **NLP** – TF-IDF Vectorization + Cosine Similarity
-- **Libraries** – Pandas, NumPy, Scikit-learn
-- **Storage** – Pickle (model), JSON (chat history), CSV (FAQ dataset)
+- **Backend** – Python Flask
+- **NLP** – TF-IDF + Cosine Similarity (Scikit-learn)
+- **Frontend** – HTML, CSS, JavaScript (vanilla)
+- **Storage** – Pickle (model), CSV (FAQ dataset)
 
 ---
 
 ## How to Run
 
 ```bash
-pip install pandas numpy scikit-learn
-python chatbot.py
+pip install flask pandas numpy scikit-learn
+python app.py
 ```
+
+Then open your browser at: **http://127.0.0.1:5000**
 
 ---
 
-## Intent Detection Pipeline
+## API Endpoints
 
-```
-User Input
-   ↓
-Preprocessing (lowercase, remove special chars)
-   ↓
-TF-IDF Vectorization (ngram_range=(1,2))
-   ↓
-Cosine Similarity with all training patterns
-   ↓
-Best matching Intent + Confidence Score
-   ↓
-Response from FAQ Dataset
-```
-
----
-
-## Test Results
-
-**20/20 intents detected correctly — 100% accuracy**
-
----
-
-## Supported Intents
-
-greeting, farewell, thanks, course_info, internship_info, certificate, fees, duration, contact, github, linkedin, submission, mentor, telegram, deadline, plagiarism, stipend, skills, project_count, recommendation
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/` | GET | Main chat interface |
+| `/chat` | POST | Send message, get response |
+| `/history` | GET | Get chat history |
+| `/intents` | GET | List all intents |
+| `/retrain` | POST | Retrain chatbot |
+| `/add_faq` | POST | Add new FAQ entry |
 
 ---
 
@@ -75,11 +61,30 @@ greeting, farewell, thanks, course_info, internship_info, certificate, fees, dur
 
 ```
 Project-4-AI-Chatbot/
-├── chatbot.py          ← main application
-├── faq_dataset.csv     ← training data (20 intents, 106 patterns)
-├── chatbot_model.pkl   ← saved model
-├── chat_history.json   ← auto-saved chat logs
+├── app.py              ← Flask backend
+├── faq_dataset.csv     ← Training data (20 intents)
+├── chatbot_model.pkl   ← Saved model (auto-created)
+├── templates/
+│   └── index.html      ← Chat web interface
 └── README.md
+```
+
+---
+
+## NLP Pipeline
+
+```
+User Message (browser)
+      ↓
+Flask /chat endpoint
+      ↓
+TF-IDF Vectorization
+      ↓
+Cosine Similarity with 106 patterns
+      ↓
+Best intent + confidence score
+      ↓
+Response → JSON → Browser UI
 ```
 
 ---

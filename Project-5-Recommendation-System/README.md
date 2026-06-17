@@ -1,0 +1,11 @@
+course_id,title,category,level,skills,description
+1,Python for Beginners,Programming,Beginner,"python basics coding","Learn Python programming from scratch"
+2,Data Analysis with Pandas,Data Science,Intermediate,"python pandas data analysis csv","Analyze datasets using Pandas"
+3,Machine Learning Basics,AI ML,Beginner,"machine learning sklearn regression classification","Learn basic ML models and workflows"
+4,Deep Learning Introduction,AI ML,Advanced,"neural networks deep learning tensorflow","Understand deep learning concepts"
+5,Web Development with Flask,Web Development,Intermediate,"python flask backend api","Build backend web apps using Flask"
+6,NLP Text Processing,AI ML,Intermediate,"nlp text processing tfidf classification","Work with text data and NLP pipelines"
+7,SQL for Data Analytics,Database,Beginner,"sql database queries analytics","Learn SQL for data analytics"
+8,Power BI Dashboard Design,Analytics,Beginner,"power bi dashboard visualization reports","Create dashboards and visual reports"
+9,Recommendation Systems,AI ML,Advanced,"recommendation similarity cosine filtering","Build content-based recommendation systems"
+10,Git and GitHub Essentials,Tools,Beginner,"git github version control repository","Manage code using Git and GitHub"
