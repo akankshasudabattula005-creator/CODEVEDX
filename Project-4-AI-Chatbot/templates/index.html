@@ -19,7 +19,7 @@
 
     .container {
       width: 100%;
-      max-width: 900px;
+      max-width: 780px;
       display: flex;
       flex-direction: column;
       gap: 16px;
@@ -58,49 +58,15 @@
     }
     .header-right { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #00F5D4; }
 
-    /* ── Main Layout ────────────────────────── */
-    .main { display: flex; gap: 16px; height: 520px; }
-
-    /* ── Sidebar ────────────────────────────── */
-    .sidebar {
-      width: 220px;
-      background: #111827;
-      border: 1px solid #1F3A5F;
-      border-radius: 16px;
-      padding: 18px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      overflow-y: auto;
-    }
-    .sidebar h3 { font-size: 11px; color: #64748B; text-transform: uppercase; letter-spacing: 2px; }
-    .quick-btn {
-      background: #1E2A3A;
-      border: 1px solid #1F3A5F;
-      border-radius: 10px;
-      padding: 10px 12px;
-      color: #94A3B8;
-      font-size: 12px;
-      cursor: pointer;
-      text-align: left;
-      transition: all 0.2s;
-    }
-    .quick-btn:hover {
-      background: #1F3A5F;
-      color: #00F5D4;
-      border-color: #00F5D4;
-      transform: translateX(3px);
-    }
-
     /* ── Chat Box ───────────────────────────── */
     .chat-box {
-      flex: 1;
       background: #111827;
       border: 1px solid #1F3A5F;
       border-radius: 16px;
       display: flex;
       flex-direction: column;
       overflow: hidden;
+      height: 540px;
     }
 
     .messages {
@@ -131,7 +97,7 @@
     .msg.bot  .msg-avatar { background: linear-gradient(135deg,#00F5D4,#7C3AED); }
     .msg.user .msg-avatar { background: linear-gradient(135deg,#F72585,#7C3AED); }
 
-    .msg-content { max-width: 72%; display: flex; flex-direction: column; gap: 4px; }
+    .msg-content { max-width: 80%; display: flex; flex-direction: column; gap: 6px; }
     .msg.user .msg-content { align-items: flex-end; }
 
     .bubble {
@@ -141,7 +107,7 @@
       line-height: 1.6;
       word-break: break-word;
     }
-    .msg.bot  .bubble {
+    .msg.bot .bubble {
       background: #1E2A3A;
       color: #E2E8F0;
       border-bottom-left-radius: 4px;
@@ -167,6 +133,36 @@
       padding: 1px 6px;
       border-radius: 4px;
       font-size: 9px;
+    }
+
+    /* ── Related question chips ──────────────── */
+    .suggestions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 2px;
+    }
+    .suggest-label {
+      font-size: 10px;
+      color: #475569;
+      width: 100%;
+      margin-bottom: 2px;
+    }
+    .suggest-chip {
+      background: #0D1420;
+      border: 1px solid #1F3A5F;
+      color: #94A3B8;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 11.5px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .suggest-chip:hover {
+      background: #1F3A5F;
+      color: #00F5D4;
+      border-color: #00F5D4;
+      transform: translateY(-1px);
     }
 
     /* ── Typing indicator ───────────────────── */
@@ -238,7 +234,6 @@
     .stat { text-align: center; }
     .stat-val { font-size: 18px; font-weight: 700; color: #00F5D4; }
     .stat-lbl { font-size: 10px; color: #64748B; margin-top: 2px; }
-
     .neon-divider { width: 1px; height: 32px; background: #1F3A5F; }
   </style>
 </head>
@@ -260,64 +255,44 @@
     </div>
   </div>
 
-  <!-- Main -->
-  <div class="main">
+  <!-- Chat window -->
+  <div class="chat-box">
+    <div class="messages" id="messages">
 
-    <!-- Sidebar quick questions -->
-    <div class="sidebar">
-      <h3>Quick Questions</h3>
-      <button class="quick-btn" onclick="sendQuick('How do I apply for internship?')">📋 How to apply?</button>
-      <button class="quick-btn" onclick="sendQuick('When will I get my certificate?')">🏆 Certificate?</button>
-      <button class="quick-btn" onclick="sendQuick('How to submit my project?')">📤 Submit project</button>
-      <button class="quick-btn" onclick="sendQuick('How to push code to GitHub?')">💻 GitHub help</button>
-      <button class="quick-btn" onclick="sendQuick('What is the deadline?')">⏰ Deadline?</button>
-      <button class="quick-btn" onclick="sendQuick('Will I get a stipend?')">💰 Stipend?</button>
-      <button class="quick-btn" onclick="sendQuick('How many projects are there?')">📁 Projects count</button>
-      <button class="quick-btn" onclick="sendQuick('Should I post on LinkedIn?')">🔗 LinkedIn?</button>
-      <button class="quick-btn" onclick="sendQuick('Can I copy code from internet?')">⚠️ Plagiarism?</button>
-      <button class="quick-btn" onclick="sendQuick('How to contact support?')">📞 Contact</button>
-    </div>
-
-    <!-- Chat window -->
-    <div class="chat-box">
-      <div class="messages" id="messages">
-
-        <!-- Welcome message -->
-        <div class="msg bot">
-          <div class="msg-avatar">🤖</div>
-          <div class="msg-content">
-            <div class="bubble">
-              👋 Hello! Welcome to <strong>CodeVedX AI Helpdesk</strong>.<br><br>
-              I can help you with questions about your internship — certificates, GitHub, submissions, deadlines, LinkedIn, and more!<br><br>
-              <em>What would you like to know?</em>
-            </div>
-            <div class="msg-meta">Just now</div>
+      <!-- Welcome message -->
+      <div class="msg bot">
+        <div class="msg-avatar">🤖</div>
+        <div class="msg-content">
+          <div class="bubble">
+            👋 Hello! Welcome to <strong>CodeVedX AI Helpdesk</strong>.<br><br>
+            I can help you with questions about your internship — certificates, GitHub, submissions, deadlines, LinkedIn, stipend and more!<br><br>
+            <em>Type your question below to get started.</em>
           </div>
+          <div class="msg-meta">Just now</div>
         </div>
+      </div>
 
-        <!-- Typing indicator -->
-        <div class="msg bot typing-indicator" id="typingIndicator">
-          <div class="msg-avatar">🤖</div>
-          <div class="msg-content">
-            <div class="bubble">
-              <div class="dots">
-                <span></span><span></span><span></span>
-              </div>
+      <!-- Typing indicator -->
+      <div class="msg bot typing-indicator" id="typingIndicator">
+        <div class="msg-avatar">🤖</div>
+        <div class="msg-content">
+          <div class="bubble">
+            <div class="dots">
+              <span></span><span></span><span></span>
             </div>
           </div>
         </div>
-
       </div>
 
-      <!-- Input area -->
-      <div class="input-area">
-        <input type="text" id="userInput"
-               placeholder="Ask me anything about your internship..."
-               onkeydown="if(event.key==='Enter') sendMessage()" />
-        <button id="sendBtn" onclick="sendMessage()">➤</button>
-      </div>
     </div>
 
+    <!-- Input area -->
+    <div class="input-area">
+      <input type="text" id="userInput"
+             placeholder="Ask me anything about your internship..."
+             onkeydown="if(event.key==='Enter') sendMessage()" />
+      <button id="sendBtn" onclick="sendMessage()">➤</button>
+    </div>
   </div>
 
   <!-- Stats bar -->
@@ -328,7 +303,7 @@
     <div class="neon-divider"></div>
     <div class="stat"><div class="stat-val" id="msgCount">0</div><div class="stat-lbl">Messages</div></div>
     <div class="neon-divider"></div>
-    <div class="stat"><div class="stat-val" id="lastConf">—</div><div class="stat-lbl">Last Confidence</div></div>
+    <div class="stat"><div class="stat-val" id="lastConf">—</div><div class="stat-lbl">Confidence</div></div>
     <div class="neon-divider"></div>
     <div class="stat"><div class="stat-val" id="lastIntent">—</div><div class="stat-lbl">Last Intent</div></div>
   </div>
@@ -338,11 +313,36 @@
 <script>
   let msgCount = 0;
 
+  // Smart related questions per intent
+  const relatedQuestions = {
+    greeting        : ["How do I apply for internship?", "What courses are available?", "How do I contact support?"],
+    internship_info : ["What is the internship duration?", "Is the internship free?", "How many projects are there?"],
+    certificate     : ["How do I submit my project?", "What is the deadline?", "How do I push code to GitHub?"],
+    fees            : ["Will I get a stipend?", "Can I get a recommendation letter?", "What skills will I learn?"],
+    duration        : ["How many projects are there?", "What is the deadline?", "How do I submit my project?"],
+    contact         : ["Who is my mentor?", "How do I join the Telegram group?", "How do I submit my project?"],
+    github          : ["How do I submit my project?", "What is the deadline?", "Can I copy code from internet?"],
+    linkedin        : ["How do I get a certificate?", "How do I submit my project?", "What skills will I learn?"],
+    submission      : ["What is the deadline?", "How to push code to GitHub?", "When will I get my certificate?"],
+    mentor          : ["How do I contact support?", "What is the deadline?", "How do I submit my project?"],
+    telegram        : ["How do I contact support?", "Who is my mentor?", "What is the deadline?"],
+    deadline        : ["How do I submit my project?", "How to push code to GitHub?", "Who is my mentor?"],
+    plagiarism      : ["What skills will I learn?", "How many projects are there?", "Can I get a recommendation letter?"],
+    stipend         : ["Is the internship free?", "Can I get a recommendation letter?", "What skills will I learn?"],
+    skills          : ["How many projects are there?", "What is the internship duration?", "Will I get a certificate?"],
+    project_count   : ["What is the deadline?", "How do I submit my project?", "What skills will I learn?"],
+    recommendation  : ["When will I get my certificate?", "What skills will I learn?", "How do I contact support?"],
+    course_info     : ["How do I apply for internship?", "What is the internship duration?", "Is the internship free?"],
+    farewell        : ["How do I submit my project?", "When will I get my certificate?", "How do I contact support?"],
+    thanks          : ["How do I submit my project?", "What is the deadline?", "How many projects are there?"],
+    unknown         : ["How do I apply for internship?", "How do I submit my project?", "How do I contact support?"],
+  };
+
   function getTime() {
     return new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
   }
 
-  function appendMessage(text, sender, intent="", confidence=0) {
+  function appendMessage(text, sender, intent="", confidence=0, suggestions=[]) {
     const messages = document.getElementById("messages");
     const typing   = document.getElementById("typingIndicator");
 
@@ -350,6 +350,20 @@
     div.className = `msg ${sender}`;
 
     const avatar = sender === "bot" ? "🤖" : "🧑";
+
+    // Build suggestions chips HTML
+    let suggestHtml = "";
+    if (sender === "bot" && suggestions.length > 0) {
+      const chips = suggestions.map(q =>
+        `<span class="suggest-chip" onclick="sendQuick('${q.replace(/'/g,"&#39;")}')">${q}</span>`
+      ).join("");
+      suggestHtml = `
+        <div class="suggestions">
+          <div class="suggest-label">You might also ask:</div>
+          ${chips}
+        </div>`;
+    }
+
     const metaHtml = sender === "bot" && intent
       ? `<div class="msg-meta">${getTime()} <span class="intent-tag">${intent}</span> <span style="color:#64748B">${confidence}%</span></div>`
       : `<div class="msg-meta">${getTime()}</div>`;
@@ -359,6 +373,7 @@
       <div class="msg-content">
         <div class="bubble">${text}</div>
         ${metaHtml}
+        ${suggestHtml}
       </div>`;
 
     messages.insertBefore(div, typing);
@@ -393,9 +408,12 @@
       });
       const data = await res.json();
 
+      // Get smart related suggestions based on detected intent
+      const suggestions = relatedQuestions[data.intent] || relatedQuestions["unknown"];
+
       setTimeout(() => {
         showTyping(false);
-        appendMessage(data.response, "bot", data.intent, data.confidence);
+        appendMessage(data.response, "bot", data.intent, data.confidence, suggestions);
         document.getElementById("lastConf").textContent   = data.confidence + "%";
         document.getElementById("lastIntent").textContent = data.intent || "unknown";
         msgCount++;
